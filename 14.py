@@ -10,6 +10,18 @@ root=Tk()
 
 
 
+# Delete function to delete a record
+def delete():
+	conn=sqlite3.connect('address_book.db')
+	c= conn.cursor()
+	
+	c.execute("DELETE FROM addresses WHERE oid = " + delete_box.get())
+
+
+
+	conn.commit()
+	conn.close()
+	
 
 
 
@@ -61,10 +73,10 @@ def query():
 	#LOOP THE RESULTS
 	print_records=""
 	for record in d:
-		print_records+=str(record) + "\n"
+		print_records+=str(record[0]) + " " +str(record[1]) + " "+  str(record[6]) + "\n"
 	
 	query_label=Label(root,text=print_records)
-	query_label.grid(row=8,column=0,columnspan=2)
+	query_label.grid(row=11,column=0,columnspan=2)
 
 
 	conn.commit()
@@ -93,7 +105,7 @@ c.execute("""CREATE TABLE addresses (
 #Create text boxes
 
 f_name=Entry(root,width=30)
-f_name.grid(row=0,column=1,padx=20)
+f_name.grid(row=0,column=1,padx=20,pady=(10,0))
 
 l_name=Entry(root,width=30)
 l_name.grid(row=1,column=1)
@@ -110,10 +122,13 @@ state.grid(row=4,column=1)
 zipcode=Entry(root,width=30)
 zipcode.grid(row=5,column=1)
 
+delete_box=Entry(root,width=30)
+delete_box.grid(row=9,column=1)
+
 # Creating Label 
 
 f_name_label=Label(root,text="First Name")
-f_name_label.grid(row=0,column=0)
+f_name_label.grid(row=0,column=0,pady=(10,0))
 
 l_name_label=Label(root,text="Last Name")
 l_name_label.grid(row=1,column=0)
@@ -131,7 +146,8 @@ state_label.grid(row=4,column=0)
 zipcode_label=Label(root,text="Zip-Code")
 zipcode_label.grid(row=5,column=0)
 
-
+delete_box_label=Label(root,text="ID number")
+delete_box_label.grid(row=9,column=0)
 # Creating Submit button
 
 submit_btn=Button(root,text="Add record to Database",command=submit)
@@ -141,6 +157,12 @@ submit_btn.grid(row=6,column=0,columnspan=2,pady=10,padx=10,ipadx=100)
 
 query_btn=Button(root,text="Show records",command=query)
 query_btn.grid(row=7,column=0,columnspan=2,pady=10,padx=10,ipadx=137)
+
+
+# Creating a delete button
+dlt_btn=Button(root,text="Oid of record which you want to delete",command=delete)
+dlt_btn.grid(row=10,column=0,columnspan=2,pady=10,padx=10,ipadx=70)
+
 
 # Close Connection 
 
