@@ -133,7 +133,7 @@ def update():
 		city_editor.insert(0,record[3])
 		state_editor.insert(0,record[4])
 		zipcode_editor.insert(0,record[5])
-
+ 
 
 	save_btn=Button(editor,text="Update record",command=edit)
 	save_btn.grid(row=6,column=0,columnspan=2,pady=10,padx=10,ipadx=140)
