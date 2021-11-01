@@ -44,6 +44,7 @@ def change():
     #     weather_color="#990066"
     # else:
     #     weather_color="#660000"
+    
 
     myLabel.config(text=city + " Air Quality " + str(quality) + " " + category,font=('Helvectica',20),background=messages(category))
     
@@ -57,6 +58,7 @@ def ziploookup():
     # zip.get()
     # zipLabel=Label(root,text=zip.get())
     # zipLabel.grid(row= 1 , column= 0,columnspan=2)
+    zip_btn.destroy()
     try:
         global api_request
         global api
@@ -69,18 +71,18 @@ def ziploookup():
         quality = api[0]['AQI']
         category= api[0]['Category']['Name']
 
-        if category== 'Good':
-            weather_color="#0C0"
-        elif category=='Moderate':
-            weather_color="#FFFF00"
-        elif category=='Unhealthy for Sensitive Groups':
-            weather_color="#FF9900"
-        elif category=='Unhealthy':
-            weather_color="#FF0000"
-        elif category=='Very Unhealthy':
-            weather_color="#990066"
-        else:
-            weather_color="#660000"
+        # if category== 'Good':
+        #     weather_color="#0C0"
+        # elif category=='Moderate':
+        #     weather_color="#FFFF00"
+        # elif category=='Unhealthy for Sensitive Groups':
+        #     weather_color="#FF9900"
+        # elif category=='Unhealthy':
+        #     weather_color="#FF0000"
+        # elif category=='Very Unhealthy':
+        #     weather_color="#990066"
+        # else:
+        #     weather_color="#660000"
 
         
 
