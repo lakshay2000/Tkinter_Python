@@ -8,16 +8,16 @@ root=Tk()
 
 root.geometry("600x100")
 
-def messages(category):
-    if category== 'Good':
+def messages(categor):
+    if categor== 'Good':
         weather_color="#0C0"
-    elif category=='Moderate':
+    elif categor=='Moderate':
         weather_color="#FFFF00"
-    elif category=='Unhealthy for Sensitive Groups':
+    elif categor=='Unhealthy for Sensitive Groups':
         weather_color="#FF9900"
-    elif category=='Unhealthy':
+    elif categor=='Unhealthy':
         weather_color="#FF0000"
-    elif category=='Very Unhealthy':
+    elif categor=='Very Unhealthy':
         weather_color="#990066"
     else:
         weather_color="#660000"
@@ -69,18 +69,18 @@ def ziploookup():
         quality = api[0]['AQI']
         category= api[0]['Category']['Name']
 
-        # if category== 'Good':
-        #     weather_color="#0C0"
-        # elif category=='Moderate':
-        #     weather_color="#FFFF00"
-        # elif category=='Unhealthy for Sensitive Groups':
-        #     weather_color="#FF9900"
-        # elif category=='Unhealthy':
-        #     weather_color="#FF0000"
-        # elif category=='Very Unhealthy':
-        #     weather_color="#990066"
-        # else:
-        #     weather_color="#660000"
+        if category== 'Good':
+            weather_color="#0C0"
+        elif category=='Moderate':
+            weather_color="#FFFF00"
+        elif category=='Unhealthy for Sensitive Groups':
+            weather_color="#FF9900"
+        elif category=='Unhealthy':
+            weather_color="#FF0000"
+        elif category=='Very Unhealthy':
+            weather_color="#990066"
+        else:
+            weather_color="#660000"
 
         
 
@@ -107,4 +107,5 @@ root.mainloop()
 
 # 90210
 # 83814
+# 99201
 # 98944
