@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
+import mysql.connector
 
 
 class LibraryManagementSystem:
@@ -131,17 +132,109 @@ class LibraryManagementSystem:
 
         DataFrameRight=Label(frame,background="powder blue",foreground="green",border=12,relief=RIDGE,font=("times new roman",12,"bold"))
         DataFrameRight.place(x=1110,y=5,width=660,height=550)
+        
+        self.textBox=Text(DataFrameRight,font=("times new roman",12,"bold"),width=45,height=25)
+        self.textBox.grid(row=0,column=2,padx=10,pady=6)
+
+        ListScrollBar=Scrollbar(DataFrameRight)
+        ListScrollBar.grid(row=0,column=1,sticky="ns")
+
+        listBook=["Head Firt Book","Learn Python the Hard Way","Python Programming","Secrete Rahshy","Python CookBook","Intro to Machine LEarning","Fluent Python","Machine tecno","My Python","Joss Ellif guru","Junglu Python","Mumbai Python","Pune Python","Machine Python","Advance Python","Inton Python","RedChilli Python","Ishq Python"]
+
+        listBox=Listbox(DataFrameRight,font=("times new roman",15,"bold"),width=20,height=24)
+        listBox.grid(row=0,column=0,padx=6)
+        ListScrollBar.config(command=listBox.yview)
+
+        for item in listBook:
+            listBox.insert(END,item)
+
+
 
         #BUTTONS FRAME 
 
         Frame_Button=Frame(self.root,border=12,relief=RIDGE,padx=20,background="powder blue")
         Frame_Button.place(x=0,y=730,width=1850,height=70)
 
+        btnAddData=Button(Frame_Button,text="Add Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnAddData.grid(row=0,column=0,pady=5)
+
+        btnShowData=Button(Frame_Button,text="Show Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnShowData.grid(row=0,column=1,pady=5)
+
+        btnUpdateData=Button(Frame_Button,text="Update Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnUpdateData.grid(row=0,column=2,pady=5)
+
+        btnDeleteData=Button(Frame_Button,text="Delete Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnDeleteData.grid(row=0,column=3,pady=5)
+
+        btnResetData=Button(Frame_Button,text="Reset Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnResetData.grid(row=0,column=4,pady=5)
+
+        btnExitData=Button(Frame_Button,text="Exit Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnExitData.grid(row=0,column=5,pady=5)
+
         # DATABASE FRAME 
 
         FrameDetails=Frame(self.root,border=12,relief=RIDGE,padx=20,background="powder blue")
         FrameDetails.place(x=0,y=800,width=1850,height=215)
 
+        TableFrame=Frame(FrameDetails,border=6,relief=RIDGE,bg="powder blue")
+        TableFrame.place(x=0,y=2,width=1800,height=185)
+
+        xscroll=ttk.Scrollbar(TableFrame,orient=HORIZONTAL)
+        yscroll=ttk.Scrollbar(TableFrame,orient=VERTICAL)
+
+        # These are dummy type 
+        self.library_table=ttk.Treeview(TableFrame,columns=("membertype","prnno","title","firstname","lastname","address1","address2","postid","mobile","bookid","booktitle","author","databorrowed","datedue","days","latereturnfine","dateoverdue","finalprice"),xscrollcommand=xscroll.set,yscrollcommand=yscroll.set)
+        xscroll.pack(side=BOTTOM,fill=X)
+        yscroll.pack(side=RIGHT,fill=Y)
+
+        xscroll.config(command=self.library_table.xview)
+        yscroll.config(command=self.library_table.yview)
+
+        # These are names which user will see
+        self.library_table.heading("membertype",text="Member Type")
+        self.library_table.heading("prnno",text="PRN No.")
+        self.library_table.heading("title",text="Title")
+        self.library_table.heading("firstname",text="First Name")
+        self.library_table.heading("lastname",text="Last Name")
+        self.library_table.heading("address1",text="Address 1")
+        self.library_table.heading("address2",text="Address 2")
+        self.library_table.heading("postid",text="Post ID")
+        self.library_table.heading("mobile",text="Mobile Number")
+        self.library_table.heading("bookid",text="Book ID")
+        self.library_table.heading("booktitle",text="Title")
+        self.library_table.heading("author",text="Author")
+        self.library_table.heading("databorrowed",text="Date of Borrowed")
+        self.library_table.heading("datedue",text="Date Due")
+        self.library_table.heading("days",text="Days on Book")
+        self.library_table.heading("latereturnfine",text="Late Return Fine")
+        self.library_table.heading("dateoverdue",text="Date Over Due")
+        self.library_table.heading("finalprice",text="Final Price")
+
+        self.library_table["show"]="headings"
+        self.library_table.pack(fill=BOTH,expand=1)
+
+        self.library_table.column("membertype",width=120)
+        self.library_table.column("prnno",width=120)
+        self.library_table.column("title",width=120)
+        self.library_table.column("firstname",width=120)
+        self.library_table.column("lastname",width=120)
+        self.library_table.column("address1",width=120)
+        self.library_table.column("address2",width=120)
+        self.library_table.column("postid",width=120)
+        self.library_table.column("mobile",width=120)
+        self.library_table.column("bookid",width=120)
+        self.library_table.column("booktitle",width=120)
+        self.library_table.column("author",width=120)
+        self.library_table.column("databorrowed",width=120)
+        self.library_table.column("datedue",width=120)
+        self.library_table.column("days",width=120)
+        self.library_table.column("latereturnfine",width=120)
+        self.library_table.column("dateoverdue",width=120)
+        self.library_table.column("finalprice",width=120)
+
+       
 if __name__=="__main__":
     root=Tk()
     obj=LibraryManagementSystem(root)
