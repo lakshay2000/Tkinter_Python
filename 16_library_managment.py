@@ -2,14 +2,40 @@
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
-import mysql.connector
 
+import MySQLdb
+from tkinter import messagebox
 
 class LibraryManagementSystem:
+
+    
+
+
+
     def __init__(self,root):
         self.root=root
         self.root.title("Library Management System")
         self.root.geometry("1920x1080+0+0")
+
+
+        self.member_var=StringVar()
+        self.prn_var=StringVar()
+        self.id_var=StringVar()
+        self.firstname_var=StringVar()
+        self.lastname_var=StringVar()
+        self.address1_var=StringVar()
+        self.address2_var=StringVar()
+        self.postcode_var=StringVar()
+        self.mobile_var=StringVar()
+        self.bookid_var=StringVar()
+        self.booktitle_var=StringVar()
+        self.author_var=StringVar()
+        self.dateborrowed_var=StringVar()
+        self.datedue_var=StringVar()
+        self.daysonbook_var=StringVar()
+        self.latereturnfine_var=StringVar()
+        self.dateoverdue_var=StringVar()
+        self.finalprice_var=StringVar()
 
         #HEADING
 
@@ -31,94 +57,94 @@ class LibraryManagementSystem:
         lblMember=Label(DataFrameLeft,text="Member Type",font=("times new roman",15,"bold"),padx=2,pady=6,background="powder blue")
         lblMember.grid(row=0,column=0,sticky=W)
 
-        comMember=ttk.Combobox(DataFrameLeft,font=("times new roman",12,"bold"),width=27,state="readonly")
+        comMember=ttk.Combobox(DataFrameLeft,font=("times new roman",12,"bold"),width=27,state="readonly",textvariable=self.member_var)
         comMember["value"]=("Admin Staff","Student","Lecturer")
         comMember.grid(row=0,column=1,padx=15)
 
         lblPRN_no=Label(DataFrameLeft,text="PRN No",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblPRN_no.grid(row=1,column=0,sticky=W)
 
-        txtPRN_no=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtPRN_no=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.prn_var)
         txtPRN_no.grid(row=1,column=1)
 
-        lblTitle=Label(DataFrameLeft,text="ID no: ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
-        lblTitle.grid(row=2,column=0,sticky=W)
-        txtTitle=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
-        txtTitle.grid(row=2,column=1)
+        lblIdNo=Label(DataFrameLeft,text="ID no: ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
+        lblIdNo.grid(row=2,column=0,sticky=W)
+        txtIdNo=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.id_var)
+        txtIdNo.grid(row=2,column=1)
 
         lblFirstName=Label(DataFrameLeft,text="First Name ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblFirstName.grid(row=3,column=0,sticky=W)
-        txtFirstName=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtFirstName=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.firstname_var)
         txtFirstName.grid(row=3,column=1)
 
         lblLastName=Label(DataFrameLeft,text="Last Name ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblLastName.grid(row=4,column=0,sticky=W)
-        txtLastName=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtLastName=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.lastname_var)
         txtLastName.grid(row=4,column=1)
 
         lblAddress1=Label(DataFrameLeft,text="Address1 ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblAddress1.grid(row=5,column=0,sticky=W)
-        txtAddress1=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtAddress1=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.address1_var)
         txtAddress1.grid(row=5,column=1)
 
         lblAddress2=Label(DataFrameLeft,text="Address2 ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblAddress2.grid(row=6,column=0,sticky=W)
-        txtAddress2=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtAddress2=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.address2_var)
         txtAddress2.grid(row=6,column=1)
 
         lblPostCode=Label(DataFrameLeft,text="Post Code ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblPostCode.grid(row=7,column=0,sticky=W)
-        txtPostCode=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtPostCode=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.postcode_var)
         txtPostCode.grid(row=7,column=1)
 
         lblMobile=Label(DataFrameLeft,text="Mobile ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblMobile.grid(row=8,column=0,sticky=W)
-        txtMobile=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtMobile=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.mobile_var)
         txtMobile.grid(row=8,column=1)
 
         lblBookID=Label(DataFrameLeft,text="Book ID ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblBookID.grid(row=0,column=3,sticky=W,padx=100)
-        txtBookID=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtBookID=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.bookid_var)
         txtBookID.grid(row=0,column=4)
 
         lblTitle=Label(DataFrameLeft,text="Book Title ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblTitle.grid(row=1,column=3,sticky=W,padx=100)
-        txtTitle=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtTitle=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.booktitle_var)
         txtTitle.grid(row=1,column=4)
 
         lblAuthor=Label(DataFrameLeft,text="Author ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblAuthor.grid(row=2,column=3,sticky=W,padx=100)
-        txtAuthor=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtAuthor=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.author_var)
         txtAuthor.grid(row=2,column=4)
 
         lblDateBorrowed=Label(DataFrameLeft,text="Date Borrowed ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblDateBorrowed.grid(row=3,column=3,sticky=W,padx=100)
-        txtDateBorrowed=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtDateBorrowed=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.dateborrowed_var)
         txtDateBorrowed.grid(row=3,column=4)
 
         lblDateDue=Label(DataFrameLeft,text="Date Due: ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblDateDue.grid(row=4,column=3,sticky=W,padx=100)
-        txtDateDue=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtDateDue=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.datedue_var)
         txtDateDue.grid(row=4,column=4)
 
         lblDaysOnBook=Label(DataFrameLeft,text="Days On Book ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblDaysOnBook.grid(row=5,column=3,sticky=W,padx=100)
-        txtDaysOnBook=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtDaysOnBook=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.daysonbook_var)
         txtDaysOnBook.grid(row=5,column=4)
 
         lblLateReturnFine=Label(DataFrameLeft,text="Late Return FIne ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblLateReturnFine.grid(row=6,column=3,sticky=W,padx=100)
-        txtLateReturnFine=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtLateReturnFine=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.latereturnfine_var)
         txtLateReturnFine.grid(row=6,column=4)
 
         lblDateOverDue=Label(DataFrameLeft,text="Date Over Due ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblDateOverDue.grid(row=7,column=3,sticky=W,padx=100)
-        txtDateOverDue=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtDateOverDue=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.dateoverdue_var)
         txtDateOverDue.grid(row=7,column=4)
 
         lblActualPrice=Label(DataFrameLeft,text="ActualPrice ",font=("arial",15,"bold"),padx=2,pady=6,background="powder blue")
         lblActualPrice.grid(row=8,column=3,sticky=W,padx=100)
-        txtActualPrice=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22)
+        txtActualPrice=Entry(DataFrameLeft,font=("arial",15,"bold"),width=22,textvariable=self.finalprice_var)
         txtActualPrice.grid(row=8,column=4)
 
         
@@ -155,7 +181,7 @@ class LibraryManagementSystem:
         Frame_Button=Frame(self.root,border=12,relief=RIDGE,padx=20,background="powder blue")
         Frame_Button.place(x=0,y=730,width=1850,height=70)
 
-        btnAddData=Button(Frame_Button,text="Add Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnAddData=Button(Frame_Button,text="Add Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white",command=self.add_data)
         btnAddData.grid(row=0,column=0,pady=5)
 
         btnShowData=Button(Frame_Button,text="Show Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
@@ -233,6 +259,39 @@ class LibraryManagementSystem:
         self.library_table.column("latereturnfine",width=120)
         self.library_table.column("dateoverdue",width=120)
         self.library_table.column("finalprice",width=120)
+
+    def add_data(self):
+        db=MySQLdb.connect(host="localhost",user="root",password="Abcd@1234",db="database_1")
+
+        my_cursor=db.cursor()
+        my_cursor.execute("insert into LibraryManagement values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",(
+            self.member_var.get(),
+            self.prn_var.get(),
+            self.id_var.get(),
+            self.firstname_var.get(),
+            self.lastname_var.get(),
+            self.address1_var.get(),
+            self.address2_var.get(),
+            self.postcode_var.get(),
+            self.mobile_var.get(),
+            self.bookid_var.get(),
+            self.booktitle_var.get(),
+            self.author_var.get(),
+            self.dateborrowed_var.get(),
+            self.datedue_var.get(),
+            self.daysonbook_var.get(),
+            self.latereturnfine_var.get(),
+            self.dateoverdue_var.get(),
+            self.finalprice_var.get()
+
+        ))
+
+        db.commit()
+        db.close()
+
+        messagebox.showinfo("Success","Member has been Added")
+
+
 
        
 if __name__=="__main__":
