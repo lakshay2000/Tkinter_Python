@@ -2,7 +2,9 @@
 from tkinter import *
 from tkinter import font
 from tkinter import ttk
-
+import datetime
+from datetime import date
+import tkinter
 import MySQLdb
 from tkinter import messagebox
 
@@ -167,7 +169,49 @@ class LibraryManagementSystem:
 
         listBook=["Head Firt Book","Learn Python the Hard Way","Python Programming","Secrete Rahshy","Python CookBook","Intro to Machine LEarning","Fluent Python","Machine tecno","My Python","Joss Ellif guru","Junglu Python","Mumbai Python","Pune Python","Machine Python","Advance Python","Inton Python","RedChilli Python","Ishq Python"]
 
+        def SelectBook(event=""):
+            index=listBox.curselection()
+            value=listBox.get(index[0])
+
+            
+            print(value)
+            x=value
+            if(x=="Head Firt Book"):
+                self.bookid_var.set("BKID01")
+                self.booktitle_var.set("Python manual")
+                self.author_var.set("Paul Berry")
+                
+                d1=date.today()
+                d2=datetime.timedelta(days=15)
+                d3=d1+d2
+                self.dateborrowed_var.set(d1)
+                self.datedue_var.set(d3)
+                self.daysonbook_var.set(15)
+                self.latereturnfine_var.set("Rs 50")
+                self.dateoverdue_var.set("No")
+                self.finalprice_var.set("Rs 780")
+
+            elif(x=="Learn Python the Hard Way"):
+                self.bookid_var.set("BKID02")
+                self.booktitle_var.set("Python manual")
+                self.author_var.set("Tanishq Banga")
+                
+                d1=date.today()
+                d2=datetime.timedelta(days=15)
+                d3=d1+d2
+                self.dateborrowed_var.set(d1)
+                self.datedue_var.set(d3)
+                self.daysonbook_var.set(15)
+                self.latereturnfine_var.set("Rs 50")
+                self.dateoverdue_var.set("No")
+                self.finalprice_var.set("Rs 500")
+
+
+
+
+
         listBox=Listbox(DataFrameRight,font=("times new roman",15,"bold"),width=20,height=24)
+        listBox.bind("<<ListboxSelect>>",SelectBook)
         listBox.grid(row=0,column=0,padx=6)
         ListScrollBar.config(command=listBox.yview)
 
@@ -184,19 +228,19 @@ class LibraryManagementSystem:
         btnAddData=Button(Frame_Button,text="Add Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white",command=self.add_data)
         btnAddData.grid(row=0,column=0,pady=5)
 
-        btnShowData=Button(Frame_Button,text="Show Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnShowData=Button(Frame_Button,command=self.showData,text="Show Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
         btnShowData.grid(row=0,column=1,pady=5)
 
         btnUpdateData=Button(Frame_Button,text="Update Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
         btnUpdateData.grid(row=0,column=2,pady=5)
 
-        btnDeleteData=Button(Frame_Button,text="Delete Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnDeleteData=Button(Frame_Button,text="Delete Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white",command=self.DeleteData)
         btnDeleteData.grid(row=0,column=3,pady=5)
 
-        btnResetData=Button(Frame_Button,text="Reset Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnResetData=Button(Frame_Button,text="Reset Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white",command=self.reset)
         btnResetData.grid(row=0,column=4,pady=5)
 
-        btnExitData=Button(Frame_Button,text="Exit Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white")
+        btnExitData=Button(Frame_Button,text="Exit Data",font=("arial",12,"bold"),width=30,background="blue",foreground="white",command=self.iExit)
         btnExitData.grid(row=0,column=5,pady=5)
 
         # DATABASE FRAME 
@@ -260,6 +304,9 @@ class LibraryManagementSystem:
         self.library_table.column("dateoverdue",width=120)
         self.library_table.column("finalprice",width=120)
 
+        self.show_data()
+        self.library_table.bind("<<ButtonRelease-1>>",self.get_cursor)
+
     def add_data(self):
         db=MySQLdb.connect(host="localhost",user="root",password="Abcd@1234",db="database_1")
 
@@ -287,9 +334,115 @@ class LibraryManagementSystem:
         ))
 
         db.commit()
+        self.show_data()
         db.close()
 
         messagebox.showinfo("Success","Member has been Added")
+
+    def show_data(self):
+        db=MySQLdb.connect(host="localhost",user="root",password="Abcd@1234",db="database_1")
+
+        my_cursor=db.cursor()
+
+        my_cursor.execute("select * from LibraryManagement")
+        rows=my_cursor.fetchall()
+        
+        if len(rows)!=0:
+            self.library_table.delete(*self.library_table.get_children())
+            for i in rows:
+                self.library_table.insert("",END,values=i)
+            db.commit()
+        db.close()
+
+    def get_cursor(self,event=""):
+        cursor_row=self.library_table.focus()
+        content=self.library_table.item(cursor_row)
+        row=content['values']
+
+        self.member_var.set(row[0])
+        self.prn_var.set(row[1])
+        self.id_var.set(row[2])
+        self.firstname_var.set(row[3])
+        self.lastname_var.set(row[4])
+        self.address1_var.set(row[5])
+        self.address2_var.set(row[6])
+        self.postcode_var.set(row[7])
+        self.mobile_var.set(row[8])
+        self.bookid_var.set(row[9])
+        self.booktitle_var.set(row[10])
+        self.author_var.set(row[11])
+        self.dateborrowed_var.set(row[12])
+        self.datedue_var.set(row[13])
+        self.daysonbook_var.set(row[14])
+        self.latereturnfine_var.set(row[15])
+        self.dateoverdue_var.set(row[16])
+        self.finalprice_var.set(row[17])
+
+    def showData(self):
+        self.textBox.insert(END,"Member Type \t \t"+self.member_var.get()+"\n")
+        self.textBox.insert(END,"PRN no. \t \t"+self.prn_var.get()+"\n")
+        self.textBox.insert(END,"ID no. \t \t"+self.id_var.get()+"\n")
+        self.textBox.insert(END,"First Name \t \t"+self.firstname_var.get()+"\n")
+        self.textBox.insert(END,"Last Name \t \t"+self.lastname_var.get()+"\n")
+        self.textBox.insert(END,"Address 1 \t \t"+self.address1_var.get()+"\n")
+        self.textBox.insert(END,"Address 2 \t \t"+self.address2_var.get()+"\n")
+        self.textBox.insert(END,"Post Code \t \t"+self.postcode_var.get()+"\n")
+        self.textBox.insert(END,"Mobile No. \t \t"+self.mobile_var.get()+"\n")
+        self.textBox.insert(END,"Book ID \t \t"+self.bookid_var.get()+"\n")
+        self.textBox.insert(END,"Book Title \t \t"+self.booktitle_var.get()+"\n")
+        self.textBox.insert(END,"Author \t \t"+self.author_var.get()+"\n")
+        self.textBox.insert(END,"Date Borrowed \t \t"+self.dateborrowed_var.get()+"\n")
+        self.textBox.insert(END,"Date Due \t \t"+self.datedue_var.get()+"\n")
+        self.textBox.insert(END,"Days on Book \t \t"+self.daysonbook_var.get()+"\n")
+        self.textBox.insert(END,"Late Return Fine \t \t"+self.latereturnfine_var.get()+"\n")
+        self.textBox.insert(END,"Date Over Due \t \t"+self.dateoverdue_var.get()+"\n")
+        self.textBox.insert(END,"Final PRice \t \t"+self.finalprice_var.get()+"\n")
+
+    def reset(self):
+        self.member_var.set("")
+        self.prn_var.set("")
+        self.id_var.set("")
+        self.firstname_var.set("")
+        self.lastname_var.set("")
+        self.address1_var.set("")
+        self.address2_var.set("")
+        self.postcode_var.set("")
+        self.mobile_var.set("")
+        self.bookid_var.set("")
+        self.booktitle_var.set("")
+        self.author_var.set("")
+        self.dateborrowed_var.set("")
+        self.datedue_var.set("")
+        self.daysonbook_var.set("")
+        self.latereturnfine_var.set("")
+        self.dateoverdue_var.set("")
+        self.finalprice_var.set("")
+
+# from tkinter import messagebox
+
+    def iExit(self):
+        exit=messagebox.askyesno("Library Management System ","Do you want to exit")
+        if exit==True:       
+            self.root.destroy()     
+    
+    def DeleteData(self):
+        if self.prn_var.get()=="" or self.id_var.get()=="":
+            messagebox.showerror("Error","First Select the member")
+        else:
+            db=MySQLdb.connect(host="localhost",user="root",password="Abcd@1234",db="database_1")
+
+            my_cursor=db.cursor()
+            query="delete from LibraryManagement where PRN_NO=%s"
+            value=(self.prn_var.get())
+            my_cursor.execute(query,value)
+            db.commit()
+            self.show_data()
+            self.reset()
+            db.close()
+
+            messagebox.showinfo("SUCCESS","Member has been deleted")
+
+
 
 
 
